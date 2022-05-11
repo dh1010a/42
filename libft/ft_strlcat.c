@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dopaek <dopaek@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/07 15:51:24 by dopaek            #+#    #+#             */
-/*   Updated: 2022/05/07 15:51:26 by dopaek           ###   ########.fr       */
+/*   Created: 2022/05/07 16:31:14 by dopaek            #+#    #+#             */
+/*   Updated: 2022/05/07 16:31:15 by dopaek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	unsigned char	*cpy_dst;
-	unsigned char	*cpy_src;
+	size_t	dst_len;
+	size_t	src_len;
+	size_t	i;
 
-	cpy_dst = (unsigned char *) dst;
-	cpy_src = (unsigned char *) src;
-	if ((len == 0) || (!dst && !src))
-		return (dst);
-	if (cpy_dst <= cpy_src)
+	i = 0;
+	dst_len = ft_strlen(dst);
+	src_len = ft_strlen(src);
+	if (dst_len >= dstsize)
+		return (src_len + dstsize);
+	while (*dst)
+		dst++;
+	if (dst_len < dstsize - 1 && dstsize > 0)
 	{
-		while (len-- > 0)
-			*cpy_dst++ = *cpy_src++;
+		while (*src && dst_len + 1 + i < dstsize)
+		{
+			*dst++ = *src++;
+			i++;
+		}
+		*dst = '\0';
 	}
-	else
-	{
-		cpy_dst += len - 1;
-		cpy_src += len - 1;
-		while (len-- > 0)
-			*cpy_dst-- = *cpy_src--;
-	}
-	return (dst);
+	return (dst_len + src_len);
 }

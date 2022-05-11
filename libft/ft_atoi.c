@@ -1,37 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dopaek <dopaek@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/07 15:51:24 by dopaek            #+#    #+#             */
-/*   Updated: 2022/05/07 15:51:26 by dopaek           ###   ########.fr       */
+/*   Created: 2022/05/11 11:49:26 by dopaek            #+#    #+#             */
+/*   Updated: 2022/05/11 11:49:31 by dopaek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+int	ft_atoi(const char *str)
 {
-	unsigned char	*cpy_dst;
-	unsigned char	*cpy_src;
+	int	result;
+	int	negative;
 
-	cpy_dst = (unsigned char *) dst;
-	cpy_src = (unsigned char *) src;
-	if ((len == 0) || (!dst && !src))
-		return (dst);
-	if (cpy_dst <= cpy_src)
+	negative = 1;
+	result = 0;
+	while ((*str >= 9 && *str <= 13) || *str == ' ')
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		while (len-- > 0)
-			*cpy_dst++ = *cpy_src++;
+		if (*str == '-')
+			negative *= -1;
+		str++;
 	}
-	else
+	while (*str >= '0' && *str <= '9')
 	{
-		cpy_dst += len - 1;
-		cpy_src += len - 1;
-		while (len-- > 0)
-			*cpy_dst-- = *cpy_src--;
+		result = result * 10 + (*str - '0');
+		str++;
 	}
-	return (dst);
+	return (result * negative);
 }

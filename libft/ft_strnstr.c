@@ -1,37 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dopaek <dopaek@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/07 15:51:24 by dopaek            #+#    #+#             */
-/*   Updated: 2022/05/07 15:51:26 by dopaek           ###   ########.fr       */
+/*   Created: 2022/05/11 11:35:44 by dopaek            #+#    #+#             */
+/*   Updated: 2022/05/11 11:35:45 by dopaek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	unsigned char	*cpy_dst;
-	unsigned char	*cpy_src;
+	char	*h;
+	char	*n;
+	size_t	i;
+	size_t	j;
 
-	cpy_dst = (unsigned char *) dst;
-	cpy_src = (unsigned char *) src;
-	if ((len == 0) || (!dst && !src))
-		return (dst);
-	if (cpy_dst <= cpy_src)
+	h = (char *) haystack;
+	n = (char *) needle;
+	i = 0;
+	if (*n == '\0')
+		return (h);
+	while (h[i] && i < len)
 	{
-		while (len-- > 0)
-			*cpy_dst++ = *cpy_src++;
+		j = 0;
+		while (h[i + j] == n[j] && n[j] && j + i < len)
+			j++;
+		if (n[j] == '\0')
+			return (h + i);
+		i++;
 	}
-	else
-	{
-		cpy_dst += len - 1;
-		cpy_src += len - 1;
-		while (len-- > 0)
-			*cpy_dst-- = *cpy_src--;
-	}
-	return (dst);
+	return (0);
 }
