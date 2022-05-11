@@ -6,11 +6,11 @@
 /*   By: dopaek <dopaek@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 15:45:28 by dopaek            #+#    #+#             */
-/*   Updated: 2022/05/11 15:45:29 by dopaek           ###   ########.fr       */
+/*   Updated: 2022/05/11 16:58:28 by dopaek           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 
 size_t	ft_wordsize(char const *s, char c)
 {

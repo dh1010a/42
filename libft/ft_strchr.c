@@ -18,7 +18,7 @@ char	*ft_strchr(const char *s, int c)
 	char	find;
 
 	s_2 = (char *) s;
-	find = (char *) c;
+	find = (char ) c;
 	if (c == '\0')
 	{
 		while (*s_2)
