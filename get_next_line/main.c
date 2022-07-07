@@ -9,7 +9,7 @@ int	main(void)
 
 	fd1 = open("test.txt", O_RDONLY);
 	i = 1;
-	while (i < 9)
+	while (i < 8)
 	{
 		line = get_next_line(fd1);
 		printf("line [%02d]: %s", i, line);
