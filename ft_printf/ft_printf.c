@@ -1,46 +1,55 @@
-#include "./includes/ft_printf.h"
-#include "./libft/libft.h"
+#include "ft_printf.h"
 
-void	type_print(char c, va_list *ap)
+static int	ft_printf_format(const char type, va_list ap)
 {
-	if (c == 'c')
-		ft_putchari_fd(va_arg(*ap, int), 1);
-	else if (c == 's')
-		ft_putstr_fd(va_arg(*ap, char *), 1);
-	else if (c == 'p')
-		ft_putpointer_fd(va_arg(*ap, void *), 1);
-	else if (c == 'd')
-		ft_putlonglong_fd(va_arg(*ap, int), 1);
-	else if (c == 'i')
-		ft_putnbr_fd(va_arg(*ap, int), 1);
-	else if (c == 'u')
-		ft_putuint_fd(va_arg(*ap, int), 1);
-	else if (c == 'x')
-		ft_putlowerhex_fd(va_arg(*ap, int), 1);
-	else if (c == 'X')
-		ft_putupperhex_fd(va_arg(*ap, int), 1);
-	else if (c == '%')
-		ft_putchar_fd('%', 1);
-	return ;
+	int	len;
+
+	if (type == 'c')
+		len = ft_printf_char((unsigned char)va_arg(ap, int));
+	else if (type == 's')
+		len = ft_printf_str((char *)va_arg(ap, char *));
+	else if (type == 'p')
+	{
+		len = write(1, "0x", 2);
+		len += ft_printf_hex((unsigned long long)va_arg(ap, void *), 0);
+	}
+	else if (type == 'd' || type == 'i')
+		len = ft_printf_nbr((int)va_arg(ap, int));
+	else if (type == 'u')
+		len = ft_printf_ui((unsigned int)va_arg(ap, int));
+	else if (type == 'x')
+		len = ft_printf_hex((unsigned int)va_arg(ap, int), 0);
+	else if (type == 'X')
+		len = ft_printf_hex((unsigned int)va_arg(ap, int), 1);
+	else if (type == '%')
+		len = write(1, "%", 1);
+	else
+		len = write(1, &type, 1);
+	return (len);
 }
 
-int	ft_printf(const char *input, ...)
+int	ft_printf(const char *format, ...)
 {
+	int		len;
 	va_list	ap;
-	size_t	idx;
 
-	idx = -1;
-	va_start(ap, input);
-	while (input[++idx])
+	len = 0;
+	va_start(ap, format);
+	while (*format)
 	{
-		if (input[idx] == '%')
+		if (*format == '%')
 		{
-			idx++;
-			type_print(input[idx], &ap);
+			format++;
+			len += ft_printf_format(*format, ap);
 		}
 		else
-			ft_putchar_fd(input[idx], 1);
+		{
+			write(1, format, 1);
+			len++;
+		}
+		if (*format)
+			format++;
 	}
 	va_end(ap);
-	return (0);
+	return (len);
 }

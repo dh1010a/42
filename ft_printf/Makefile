@@ -1,47 +1,26 @@
-LIBFT = ./libft/libft.a
-
 NAME = libftprintf.a
-
-SRCS =  ft_printf.c \
-		src/ft_putlonglong_fd.c \
-		src/ft_putpointer_fd.c \
-		src/ft_putlowerhex_fd.c \
-		src/ft_putupperhex_fd.c \
-		src/ft_putuint_fd.c \
-
-
-DEL_O = ft_putlonglong_fd.o \
-		ft_putpointer_fd.o \
-		ft_putlowerhex_fd.o \
-		ft_putupperhex_fd.o \
-		ft_putuint_fd.o
-
-
-CC = gcc
-
-FLAGS = -c -Wall -Wextra -Werror
-
-INCLUDES = -I./includes
-
-OBJS = $(SRCS:.c=.o)
-
-.c.o:		$(SRCS)
-			$(CC) $(FLAGS) -c -o $@ $<
-
-$(NAME): $(OBJS)
-		make bonus -C ./libft
-		cp libft/libft.a $(NAME)
-		$(CC) $(FLAGS) $(INCLUDES) $(SRCS)
-		ar -rcs $(NAME) $(OBJS)
+FLAGS = -Wall -Wextra -Werror
+SRC = ft_printf.c ft_printf_utils.c
+OBJ = $(SRC:.c=.o)
+INC_LINK = -I.
 
 all : $(NAME)
 
-clean :
-	make clean -C ./libft
-	rm -rf $(OBJS) $(DEL_O)
+$(NAME) : $(OBJ) libft
+		cp libft/libft.a ./$(NAME)
+		ar rsc $(NAME) $(OBJ)
 
-fclean : clean
-	make fclean -C ./libft
+%.o: %.c
+	gcc $(FLAGS) $(INC_LINK) -c $< -o $(<:.c=.o)
+
+libft :
+	$(MAKE) -C ./libft all
+clean :
+	$(MAKE) -C ./libft fclean
+	rm -rf $(OBJ)
+fclean : clean	
 	rm -rf $(NAME)
 
 re : fclean all
+
+.PHONY: all clean fclean re libft
