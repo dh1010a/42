@@ -7,14 +7,13 @@ INC_LINK = -I.
 all : $(NAME)
 
 $(NAME) : $(OBJ) libft
+		$(MAKE) -C ./libft all
 		cp libft/libft.a ./$(NAME)
 		ar rsc $(NAME) $(OBJ)
 
 %.o: %.c
 	gcc $(FLAGS) $(INC_LINK) -c $< -o $(<:.c=.o)
-
-libft :
-	$(MAKE) -C ./libft all
+	
 clean :
 	$(MAKE) -C ./libft fclean
 	rm -rf $(OBJ)
@@ -23,4 +22,4 @@ fclean : clean
 
 re : fclean all
 
-.PHONY: all clean fclean re libft
+.PHONY: all clean fclean re
